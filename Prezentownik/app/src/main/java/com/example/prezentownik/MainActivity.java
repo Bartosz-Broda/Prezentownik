@@ -1,6 +1,8 @@
 package com.example.prezentownik;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,8 +10,11 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.prezentownik.adapters.RecyclerAdapter;
+import com.example.prezentownik.models.Person;
+import com.example.prezentownik.viewmodels.MainActivityViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,35 +24,36 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mGiftQuantity = new ArrayList<>();
 
+    private RecyclerView recyclerView;
+    private RecyclerAdapter adapter;
+    private MainActivityViewModel mMainActivityViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: started.");
 
-        addInfoToArrays();
-    }
+        mMainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
 
-    private void addInfoToArrays(){
-        mNames.add("Jolka");
-        mGiftQuantity.add("zakupino 2 z 3 prezentów");
+        mMainActivityViewModel.init();
 
-        mNames.add("Piotrek");
-        mGiftQuantity.add("zakupino 0 z 1 prezentów");
-
-        mNames.add("Michałek");
-        mGiftQuantity.add("zakupino 0 z 2 prezentów");
-
-        mNames.add("Zuzia");
-        mGiftQuantity.add("zakupino 1 z 3 prezentów");
+        mMainActivityViewModel.getPerson().observe(this, new Observer<List<Person>>() {
+            @Override
+            public void onChanged(List<Person> people) {
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         initRecyclerView();
     }
 
+
+
     private void initRecyclerView(){
         Log.d(TAG, "initRecyclerView: init recycelrview");
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        RecyclerAdapter adapter = new RecyclerAdapter(this, mNames, mGiftQuantity);
+        recyclerView = findViewById(R.id.recycler_view);
+        adapter = new RecyclerAdapter(this, mMainActivityViewModel.getPerson().getValue());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

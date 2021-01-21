@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "317323604765",
+    "project_id": "prezentownik-6664e",
+    "storage_bucket": "prezentownik-6664e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317323604765:android:f3cf97ef2f2170a117e7f4",
+        "android_client_info": {
+          "package_name": "com.example.prezentownik"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317323604765-c8t5qliai0ng8bmkilb04rkhrbhm8qmj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_oP3QADoTePK4Hk4Md1sX2bqkwOr5CcI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "317323604765-c8t5qliai0ng8bmkilb04rkhrbhm8qmj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -13,20 +13,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prezentownik.R;
+import com.example.prezentownik.models.Person;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
 
     private static final String TAG = "RecyclerAdapter";
 
-    private ArrayList<String> mNames = new ArrayList<>();
-    private ArrayList<String> mGiftQuantity = new ArrayList<>();
+    private List<Person> mPersons;
     private Context mContext;
 
-    public RecyclerAdapter(Context mContext, ArrayList<String> mNames, ArrayList<String> mGiftQuantity) {
-        this.mNames = mNames;
-        this.mGiftQuantity = mGiftQuantity;
+    public RecyclerAdapter(Context mContext, List<Person> persons) {
+        this.mPersons = persons;
         this.mContext = mContext;
     }
 
@@ -42,28 +42,31 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called.");
 
-        holder.name.setText(mNames.get(position));
-        holder.giftQuantity.setText(mGiftQuantity.get(position));
+        // Set the name of the Person
+        ((ViewHolder)holder).name.setText(mPersons.get(position).getName());
+
+        // Set the text of gift quantity
+        ((ViewHolder)holder).giftQuantity.setText(mPersons.get(position).getGiftQuantity());
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: clicked on something");
 
-                Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, (CharSequence) mPersons.get(position), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mNames.size();
+        return mPersons.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-         TextView name;
-         TextView giftQuantity;
+         private TextView name;
+         private TextView giftQuantity;
          RelativeLayout parentLayout;
 
          public ViewHolder(@NonNull View itemView) {
