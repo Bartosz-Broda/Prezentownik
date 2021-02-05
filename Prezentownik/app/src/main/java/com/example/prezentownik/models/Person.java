@@ -3,10 +3,12 @@ package com.example.prezentownik.models;
 public class Person {
 
     private String name;
+    private int budget;
     private String giftQuantity;
 
-    public Person(String name, String giftQuantity) {
+    public Person(String name, int budget, String giftQuantity) {
         this.name = name;
+        this.budget = budget;
         this.giftQuantity = giftQuantity;
     }
 
@@ -17,6 +19,10 @@ public class Person {
     public String getGiftQuantity() { return giftQuantity; }
 
     public void setGiftQuantity(String giftQuantity) { this.giftQuantity = giftQuantity; }
+
+    public int getBudget() { return budget; }
+
+    public void setBudget(int budget) { this.budget = budget; }
 
 
 }

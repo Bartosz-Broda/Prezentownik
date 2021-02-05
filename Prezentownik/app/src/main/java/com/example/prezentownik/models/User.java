@@ -2,23 +2,26 @@ package com.example.prezentownik.models;
 
 import com.google.firebase.firestore.Exclude;
 
-import java.io.Serializable;
-
-public class User implements Serializable {
-    public String uid;
-    public String name;
-    @SuppressWarnings("WeakerAccess")
+public class User {
     public String email;
+    public String uid;
+
     @Exclude
     public boolean isAuthenticated;
     @Exclude
-    boolean isNew, isCreated;
+    public boolean isNew, isCreated;
+    @Exclude
+    public String error;
 
     public User() {}
 
-    User(String uid, String name, String email) {
+    public User(String email, String uid) {
+        this.email = email;
         this.uid = uid;
-        this.name = name;
+    }
+
+    public User(String email) {
         this.email = email;
     }
 }
+

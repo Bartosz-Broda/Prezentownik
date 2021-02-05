@@ -27,21 +27,23 @@ public class PersonRepository {
         return data;
     }
 
+
     private void setPersons(){
+        //TODO: TUTAJ ODWOLANIE DO KONKRETNEJ LISTY I Z NIEJ BRAC LUDZI
         dataset.add(
-                new Person("Wojtek","Zakupiono 1 z 3 prezentów")
+                new Person("Wojtek", 200,"Zakupiono 1 z 3 prezentów")
         );
         dataset.add(
-                new Person("Halina","Zakupiono 2 z 4 prezentów")
+                new Person("Halina", 150,"Zakupiono 2 z 4 prezentów")
         );
         dataset.add(
-                new Person("Lenka","Zakupiono 1 z 1 prezentów")
+                new Person("Lenka", 300, "Zakupiono 1 z 1 prezentów")
         );
         dataset.add(
-                new Person("Horacy","Zakupiono 0 z 3 prezentów")
+                new Person("Horacy", 75, "Zakupiono 0 z 3 prezentów")
         );
         dataset.add(
-                new Person("Anka","Zakupiono 1 z 2 prezentów")
+                new Person("Anka",200, "Zakupiono 1 z 2 prezentów")
         );
     }
 }

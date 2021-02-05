@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item
+        android:id="@+id/lists_title_text"
+        android:title="@string/listy_prezent_w">
+        <menu>
+            <item
+                android:id="@+id/gift_list"
+                android:title="Lista świąteczna"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+
+    <item android:title="@string/konto">
+        <menu>
+            <item
+                android:id="@+id/account_logout"
+                android:title="Wyloguj"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+
+</menu>
