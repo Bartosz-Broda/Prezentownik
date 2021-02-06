@@ -50,8 +50,14 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="300dp"
             android:layout_below="@+id/my_toolbar"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_testowy"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_below="@+id/recycler_view"/>
 
     </RelativeLayout>
 

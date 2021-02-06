@@ -27,9 +27,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.example.prezentownik.adapters.RecyclerAdapter;
+import com.example.prezentownik.adapters.TestowyAdapter;
 import com.example.prezentownik.models.GiftList;
 import com.example.prezentownik.models.Person;
 import com.example.prezentownik.viewmodels.MainActivityViewModel;
+import com.example.prezentownik.viewmodels.TestowyViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +42,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity";
+    private RecyclerView listViewTestowy;
+    private TestowyViewModel testowyViewModel;
+    private TestowyAdapter adapterTest;
 
     //vars
     private ArrayList<String> mNames = new ArrayList<>();
@@ -64,16 +69,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         firebaseAuth = FirebaseAuth.getInstance();
 
+        listViewTestowy = findViewById(R.id.recycler_view_testowy);
+        adapterTest = new TestowyAdapter();
+
+        testowyViewModel = new ViewModelProvider(this).get(TestowyViewModel.class);
+        testowyViewModel.getTestListModelData().observe(this, new Observer<List<GiftList>>() {
+            @Override
+            public void onChanged(List<GiftList> giftLists) {
+                adapterTest.setListModels(giftLists);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
         mMainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         mMainActivityViewModel.init();
         mMainActivityViewModel.getPerson().observe(this, people -> adapter.notifyDataSetChanged());
 
+        listViewTestowy.setLayoutManager(new LinearLayoutManager(this));
+        listViewTestowy.setHasFixedSize(true);
+        listViewTestowy.setAdapter(adapterTest);
         initUI();
         initRecyclerView();
     }
 
 
-    private void initUI(){
+    private void initUI() {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         fabAddList = findViewById(R.id.FAB_Add_list);
@@ -94,16 +114,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         List<String> myListofGiftLists = mMainActivityViewModel.getMyLists().getValue();
 
-        if (!myListofGiftLists.isEmpty()){
+        if (!myListofGiftLists.isEmpty()) {
             SubMenu subMenu1 = navigationView.getMenu().addSubMenu(Menu.NONE, 1, 1, "Listy z zakupami");
-            for (String element : myListofGiftLists){
+            for (String element : myListofGiftLists) {
                 subMenu1.add(3, 1, 1, element);
                 subMenu1.add(3, 2, 2, element);
             }
-        }else{navigationView.getMenu().addSubMenu(Menu.NONE, 1, 1, "Listy z zakupami");}
+        } else {
+            SubMenu subMenu1 = navigationView.getMenu().addSubMenu(Menu.NONE, 1, 1, "Listy z zakupami");
+            subMenu1.add(3, 1, 1, "Siema");
+        }
     }
 
-    private void initRecyclerView(){
+    private void initRecyclerView() {
         Log.d(TAG, "initRecyclerView: init recycelrview");
         recyclerView = findViewById(R.id.recycler_view);
         adapter = new RecyclerAdapter(this, mMainActivityViewModel.getPerson().getValue());
@@ -111,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void addNewGiftList(){
+    private void addNewGiftList() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
         LinearLayout layout = new LinearLayout(this);
@@ -125,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         layout.addView(listBudgetEditText);
 
         layout.setDividerPadding(25);
-        layout.setPadding(35,0,35,25);
+        layout.setPadding(35, 0, 35, 25);
 
         alert.setMessage("Nazwij swoją listę:");
         alert.setTitle("Nowa lista prezentów");
@@ -151,18 +174,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onBackPressed(){
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }
-        else
-        {super.onBackPressed();
+        } else {
+            super.onBackPressed();
         }
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.account_logout){
+        if (item.getItemId() == R.id.account_logout) {
             Log.d(TAG, "onClick: Logout");
             firebaseAuth.signOut();
             finish();
@@ -173,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if(v == fabAddList){
+        if (v == fabAddList) {
             addNewGiftList();
         }
     }

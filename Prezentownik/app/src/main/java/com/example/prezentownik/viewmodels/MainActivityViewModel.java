@@ -28,7 +28,6 @@ public class MainActivityViewModel extends ViewModel {
         }
         mRepo = PersonRepository.getInstance();
         mPersons = mRepo.getPersons();
-
         listRepo = ListRepository.getInstance();
     }
 

@@ -27,6 +27,8 @@ import static android.content.ContentValues.TAG;
 import static com.example.prezentownik.utils.HelperClass.logErrorMessage;
 
 public class ListRepository {
+
+
     private static ListRepository instance;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
@@ -84,11 +86,10 @@ public class ListRepository {
     public MutableLiveData<List<String>> retrieveMyLists() {
         Log.d(TAG, "retrieveMyLists: Wywołane");
         setLists();
+        Log.d(TAG, "retrieveMyLists: HEEk" + dataset);
 
         MutableLiveData<List<String>> data = new MutableLiveData<>();
-
         data.setValue(dataset);
-
         return data;
     }
 
@@ -107,24 +108,4 @@ public class ListRepository {
         });
 
     }
-/*    public void getListData(){
-        listsRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    //                                      creates a list of data of type GiftList
-                    onFirestoreTaskComplete.getListDataAdded(task.getResult().toObjects(GiftList.class));
-                } else {
-                    onFirestoreTaskComplete.onError(task.getException());
-                }
-            }
-        });
-    }
-
-    //interface for sending data to viewmodel
-    //I'm using it for my querysnapshot task from above
-    public interface OnFirestoreTaskComplete {
-        void getListDataAdded(List<GiftList> giftListModelList);
-        void onError(Exception e);
-    }*/
 }

@@ -43,10 +43,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         Log.d(TAG, "onBindViewHolder: called.");
 
         // Set the name of the Person
-        ((ViewHolder)holder).name.setText(mPersons.get(position).getName());
+        holder.name.setText(mPersons.get(position).getName());
 
         // Set the text of gift quantity
-        ((ViewHolder)holder).giftQuantity.setText(mPersons.get(position).getGiftQuantity());
+        holder.giftQuantity.setText(mPersons.get(position).getGiftQuantity());
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
