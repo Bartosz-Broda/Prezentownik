@@ -2,18 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
-    <item
-        android:id="@+id/lists_title_text"
-        android:title="@string/listy_prezent_w">
-        <menu>
-            <item
-                android:id="@+id/gift_list"
-                android:title="Lista świąteczna"
-                app:showAsAction="never" />
-        </menu>
-    </item>
 
-    <item android:title="@string/konto">
+    <item android:title="@string/konto"
+        android:orderInCategory="2">
         <menu>
             <item
                 android:id="@+id/account_logout"

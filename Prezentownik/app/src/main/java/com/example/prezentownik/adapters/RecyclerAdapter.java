@@ -25,9 +25,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private List<Person> mPersons;
     private Context mContext;
 
-    public RecyclerAdapter(Context mContext, List<Person> persons) {
-        this.mPersons = persons;
+    public RecyclerAdapter(Context mContext) {
         this.mContext = mContext;
+    }
+
+    public void setPersonModels(List<Person> mPersons){
+        this.mPersons = mPersons;
     }
 
     @NonNull
@@ -53,14 +56,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             public void onClick(View v) {
                 Log.d(TAG, "onClick: clicked on something");
 
-                Toast.makeText(mContext, (CharSequence) mPersons.get(position), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext, (CharSequence) mPersons.get(position), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mPersons.size();
+        if(mPersons == null){
+            return 0;
+        } else {
+            return mPersons.size();
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

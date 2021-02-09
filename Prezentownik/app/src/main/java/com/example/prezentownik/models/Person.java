@@ -1,15 +1,16 @@
 package com.example.prezentownik.models;
 
+import com.google.firebase.firestore.Exclude;
+
 public class Person {
 
     private String name;
     private int budget;
     private String giftQuantity;
 
-    public Person(String name, int budget, String giftQuantity) {
+    public Person(String name, int budget) {
         this.name = name;
         this.budget = budget;
-        this.giftQuantity = giftQuantity;
     }
 
     public String getName() { return name; }
@@ -24,5 +25,6 @@ public class Person {
 
     public void setBudget(int budget) { this.budget = budget; }
 
-
+    public Person() {
+    }
 }

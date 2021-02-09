@@ -28,7 +28,6 @@ import static com.example.prezentownik.utils.HelperClass.logErrorMessage;
 
 public class ListRepository {
 
-
     private static ListRepository instance;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
@@ -49,8 +48,6 @@ public class ListRepository {
 
         GiftList newList = new GiftList(listName, listBudget);
         DocumentReference listRef = listsRef.document(listName);
-
-        Log.d(TAG, "CreateNewGiftList: ELOELO");
 
         listRef.get().addOnCompleteListener(listTask -> {
             if (listTask.isSuccessful()) {
