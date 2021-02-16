@@ -6,9 +6,10 @@ public class Gift {
     private int giftPrice;
     private Boolean isBought;
 
-    public Gift(String giftName, int giftPrice) {
+    public Gift(String giftName, int giftPrice, boolean isBought) {
         this.giftName = giftName;
         this.giftPrice = giftPrice;
+        this.isBought = isBought;
     }
 
     public String getGiftName() { return giftName; }

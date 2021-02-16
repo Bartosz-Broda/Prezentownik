@@ -65,7 +65,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 Log.d(TAG, "onClick: clicked on something " + mPersons.get(position).getName());
                 Intent myIntent = new Intent(mContext, GiftsActivity.class);
                 myIntent.putExtra("key", value);
-                myIntent.putExtra("key2", listName);//Optional parameters
+                myIntent.putExtra("key2", listName);
+                myIntent.putExtra("key3", mPersons.get(position).getBudget());//Optional parameters
+
                 mContext.startActivity(myIntent);
 
                 Toast.makeText(mContext, String.valueOf(mPersons.get(position)), Toast.LENGTH_SHORT).show();

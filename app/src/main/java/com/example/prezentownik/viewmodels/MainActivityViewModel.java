@@ -1,5 +1,7 @@
 package com.example.prezentownik.viewmodels;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -11,6 +13,8 @@ import com.example.prezentownik.repositories.ListRepository;
 import com.example.prezentownik.repositories.PersonRepository;
 
 import java.util.List;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class MainActivityViewModel extends ViewModel implements PersonRepository.OnFirestoreTaskComplete, GiftRepository.OnFirestoreTaskComplete {
 
@@ -51,6 +55,10 @@ public class MainActivityViewModel extends ViewModel implements PersonRepository
     }
 
     public void addNewPerson (String name, int budget, String list){mRepo.addNewPerson(name, budget, list);}
+
+    public void addNewGift (String giftName, int giftPrice, String list, String selectedPerson, boolean isBought){giftRepo.addNewGift(giftName, giftPrice, list, selectedPerson, isBought);}
+
+    public void updateGiftInfo (String giftName, int giftPrice, String list, String selectedPerson){}
 
     @Override
     public void getPersonDataAdded(List<Person> PersonModelList) {

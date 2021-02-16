@@ -34,18 +34,17 @@ public class GiftRepository {
         this.onFirestoreTaskComplete = onFirestoreTaskComplete;
     }
 
-    public void addNewGift(String personName, int personBudget, String list, String selectedPerson){
-        Gift newGift = new Gift(personName, personBudget);
+    public void addNewGift(String giftName, int giftPrice, String list, String selectedPerson, boolean isBought){
+        Gift newGift = new Gift(giftName, giftPrice, isBought);
         CollectionReference giftsRef = rootRef.collection("users").document(Objects.requireNonNull(firebaseAuth.getUid()))
                 .collection("Giftlists").document(list)
                 .collection("Persons").document(selectedPerson)
                 .collection("Gifts");
-        DocumentReference giftRef = giftsRef.document(personName);
+        DocumentReference giftRef = giftsRef.document(giftName);
 
         giftRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
-                if(!document.exists()){
                     giftRef.set(newGift).addOnCompleteListener(listCreationTask -> {
                         Log.d(TAG, "CreateNewGiftList: ELOELO4");
                         if (listCreationTask.isSuccessful()) {
@@ -54,10 +53,10 @@ public class GiftRepository {
                             logErrorMessage(listCreationTask.getException().getMessage() + "KURWA22");
                         }
                     });
-                }
             }
         });
     }
+
 
     public void getGiftData(String list, String selectedPerson) {
         if (list != "") {
@@ -73,7 +72,7 @@ public class GiftRepository {
                             Log.w(TAG, "Listen failed.", e);
                             return;
                         }
-                        //                                      creates a list of data of type Person
+                        //                                creates a list of data of type Gift
                         onFirestoreTaskComplete.getGiftDataAdded(value.toObjects(Gift.class));
                     });
         }

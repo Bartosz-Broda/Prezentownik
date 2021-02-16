@@ -7,6 +7,7 @@
     android:fitsSystemWindows="true"
     tools:context=".GiftsActivity">
 
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/second_toolbar"
         android:layout_width="match_parent"
@@ -15,8 +16,31 @@
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="Imie osoby"
+        app:title=""
         app:titleMarginBottom="25dp"/>
+
+    <TextView
+        android:id="@+id/personNameTextView"
+        android:paddingTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:text="TextViewTextView"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/progressTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/personNameTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:text="TextViewTextView"
+        android:textSize="15sp"
+/>
 
     <ProgressBar
         android:id="@+id/budget_progressbar"
@@ -49,9 +73,10 @@
         android:id="@+id/fabAddGift"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_gravity="end"
         android:layout_marginTop="520dp"
-        android:layout_marginStart="310dp"
+        android:layout_marginEnd="45dp"
         android:clickable="true"
         android:visibility="visible"
         app:backgroundTint="@color/colorPrimary"
