@@ -35,7 +35,7 @@ public class PersonRepository {
         this.onFirestoreTaskComplete = onFirestoreTaskComplete;
     }
 
-    public void addNewPerson(String personName, int personBudget, int giftsQuantity, int giftsBought, float checkedGiftsPrice, String list){
+    public void addNewPerson(String personName, float personBudget, int giftsQuantity, int giftsBought, float checkedGiftsPrice, String list){
         Person newPerson = new Person(personName, personBudget, giftsQuantity, giftsBought, checkedGiftsPrice);
         CollectionReference personsRef = rootRef.collection("users").document(Objects.requireNonNull(firebaseAuth.getUid()))
                 .collection("Giftlists").document(list)

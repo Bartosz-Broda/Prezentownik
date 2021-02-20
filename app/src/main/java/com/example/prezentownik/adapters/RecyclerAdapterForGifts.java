@@ -111,8 +111,6 @@ public class RecyclerAdapterForGifts extends RecyclerView.Adapter<RecyclerAdapte
 
         holder.parentLayout.setOnClickListener(v -> {
             Log.d(TAG, "onClick: clicked on something");
-            Toast.makeText(mContext, String.valueOf(mGifts.get(position).getIsBought()), Toast.LENGTH_SHORT).show();
-
         });
     }
 

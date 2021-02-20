@@ -9,7 +9,7 @@ public class GiftList {
     public String error;
 
     private String listName;
-    private int listBudget;
+    private float listBudget;
     private int usedBudget;
 
     public String getListName() {
@@ -20,11 +20,11 @@ public class GiftList {
         this.listName = listName;
     }
 
-    public int getListBudget() {
+    public float getListBudget() {
         return listBudget;
     }
 
-    public void setListBudget(int listBudget) {
+    public void setListBudget(float listBudget) {
         this.listBudget = listBudget;
     }
 
@@ -37,7 +37,7 @@ public class GiftList {
     }
 
 
-    public GiftList(String listName, int listBudget, int usedBudget) {
+    public GiftList(String listName, float listBudget, int usedBudget) {
         this.listName = listName;
         this.listBudget = listBudget;
         this.usedBudget = usedBudget;

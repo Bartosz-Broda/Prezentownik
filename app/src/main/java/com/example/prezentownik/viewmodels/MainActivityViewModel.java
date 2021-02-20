@@ -53,9 +53,9 @@ public class MainActivityViewModel extends ViewModel implements PersonRepository
 
 
 
-    public void SetNewList (String name, int budget, int usedBudget){ listRepo.CreateNewGiftList(name, budget, usedBudget); }
+    public void SetNewList (String name, float budget, int usedBudget){ listRepo.CreateNewGiftList(name, budget, usedBudget); }
 
-    public void addNewPerson (String name, int budget, String list, int giftQuantity, int giftsBought, float checkedGiftsPrice){mRepo.addNewPerson(name, budget, giftQuantity, giftsBought, checkedGiftsPrice, list);}
+    public void addNewPerson (String name, float budget, String list, int giftQuantity, int giftsBought, float checkedGiftsPrice){mRepo.addNewPerson(name, budget, giftQuantity, giftsBought, checkedGiftsPrice, list);}
 
     public void deletePerson (String personName, String list){mRepo.deleteGift(personName, list);}
 

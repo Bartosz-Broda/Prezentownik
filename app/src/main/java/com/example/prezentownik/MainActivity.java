@@ -312,11 +312,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         alert.setPositiveButton("Zatwierdź", (dialog, whichButton) -> {
             //What ever you want to do with the value
-            int budget = 0;
+            float budget = 0;
             String name = listNameEditText.getText().toString();
 
             if (!listBudgetEditText.getText().toString().equals("")) {
-                budget = Integer.parseInt(listBudgetEditText.getText().toString());
+                try {
+                    budget = Float.parseFloat(listBudgetEditText.getText().toString());
+                }catch (Exception ignored){
+                    Toast.makeText(this, "Wprowadź wartość liczbową", Toast.LENGTH_SHORT).show();
+                }
             }
 
             //If user wants to add new list:

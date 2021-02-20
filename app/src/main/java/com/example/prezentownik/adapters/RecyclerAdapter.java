@@ -85,13 +85,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 Intent myIntent = new Intent(mContext, GiftsActivity.class);
                 myIntent.putExtra("key", value);
                 myIntent.putExtra("key2", listName);
-                myIntent.putExtra("key3", mPersons.get(position).getBudget());//Optional parameters
+                myIntent.putExtra("key3", mPersons.get(position).getBudget());
+                Log.d(TAG, "onClick: KURWA" + mPersons.get(position).getBudget());//Optional parameters
 
                 mContext.startActivity(myIntent);
-
-                Toast.makeText(mContext, String.valueOf(mPersons.get(position)), Toast.LENGTH_SHORT).show();
-
-                //onRecyclerItemClicked.shutDownActivity();
             }
         });
     }

@@ -34,7 +34,7 @@ public class ListRepository {
     }
 
 
-    public MutableLiveData<GiftList> CreateNewGiftList(String listName, int listBudget, int usedBudget) {
+    public MutableLiveData<GiftList> CreateNewGiftList(String listName, float listBudget, int usedBudget) {
 
         MutableLiveData<GiftList> newListMutableLiveData = new MutableLiveData<>();
 

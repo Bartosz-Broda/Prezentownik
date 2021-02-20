@@ -54,7 +54,7 @@ public class GiftsActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = getIntent();
         String value = intent.getStringExtra("key");
         String listName = intent.getStringExtra("key2");
-        int personBudget = intent.getIntExtra("key3", 0);
+        float personBudget = intent.getFloatExtra("key3", 0);
 
         nameTextView = findViewById(R.id.personNameTextView);
         progressTextView = findViewById(R.id.progressTitleTextView);
@@ -128,7 +128,7 @@ public class GiftsActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = GiftsActivity.this.getIntent();
         String personName = intent.getStringExtra("key");
         String listName = intent.getStringExtra("key2");
-        int personBudget = intent.getIntExtra("key3", 0);
+        float personBudget = intent.getFloatExtra("key3", 0);
         //int giftQuantity = mMainActivityViewModel.getSelectedPersonModelData().getValue().get(0).getGiftQuantity();
         int giftQuantity = adapter.getItemCount();
         //giftQuantity += 1;

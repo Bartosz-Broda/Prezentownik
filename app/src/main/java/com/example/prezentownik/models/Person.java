@@ -3,12 +3,12 @@ package com.example.prezentownik.models;
 public class Person {
 
     private String name;
-    private int budget;
+    private float budget;
     private int giftQuantity;
     private int giftsBought;
     private float checkedGiftsPrice;
 
-    public Person(String name, int budget, int giftQuantity, int giftsBought, float checkedGiftsPrice) {
+    public Person(String name, float budget, int giftQuantity, int giftsBought, float checkedGiftsPrice) {
         this.name = name;
         this.budget = budget;
         this.giftQuantity = giftQuantity;
@@ -24,9 +24,9 @@ public class Person {
 
     public void setGiftQuantity(int giftQuantity) { this.giftQuantity = giftQuantity; }
 
-    public int getBudget() { return budget; }
+    public float getBudget() { return budget; }
 
-    public void setBudget(int budget) { this.budget = budget; }
+    public void setBudget(float budget) { this.budget = budget; }
 
     public int getGiftsBought() { return giftsBought; }
 
