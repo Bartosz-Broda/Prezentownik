@@ -43,6 +43,9 @@ public class MainActivityViewModel extends ViewModel implements PersonRepository
         return personModelData;
     }
 
+    private MutableLiveData<List<Person>> selectedPersonModelData = new MutableLiveData<>();
+    public LiveData<List<Person>> getSelectedPersonModelData() {return selectedPersonModelData;}
+
     private MutableLiveData<List<Gift>> giftModelData = new MutableLiveData<>();
     public LiveData<List<Gift>> getGiftModelData() {
         return giftModelData;
@@ -50,19 +53,28 @@ public class MainActivityViewModel extends ViewModel implements PersonRepository
 
 
 
-    public void SetNewList (String name, int budget){
-        listRepo.CreateNewGiftList(name, budget);
-    }
+    public void SetNewList (String name, int budget, int usedBudget){ listRepo.CreateNewGiftList(name, budget, usedBudget); }
 
-    public void addNewPerson (String name, int budget, String list){mRepo.addNewPerson(name, budget, list);}
+    public void addNewPerson (String name, int budget, String list, int giftQuantity, int giftsBought, float checkedGiftsPrice){mRepo.addNewPerson(name, budget, giftQuantity, giftsBought, checkedGiftsPrice, list);}
 
-    public void addNewGift (String giftName, int giftPrice, String list, String selectedPerson, boolean isBought){giftRepo.addNewGift(giftName, giftPrice, list, selectedPerson, isBought);}
+    public void deletePerson (String personName, String list){mRepo.deleteGift(personName, list);}
+
+    public void addNewGift (String giftName, float giftPrice, String list, String selectedPerson, boolean isBought){giftRepo.addNewGift(giftName, giftPrice, list, selectedPerson, isBought);}
+
+    public void  deleteGift(String giftName, String list, String selectedPerson){giftRepo.deleteGift(giftName, list, selectedPerson);}
 
     public void updateGiftInfo (String giftName, int giftPrice, String list, String selectedPerson){}
+
+    public void getSelectedPersonData (String list, String personName){mRepo.getSelectedPersonData(list, personName); }
 
     @Override
     public void getPersonDataAdded(List<Person> PersonModelList) {
         personModelData.setValue(PersonModelList);
+    }
+
+    @Override
+    public void getSelectedPerson(List<Person> SelectedPersonModelList) {
+        selectedPersonModelData.setValue(SelectedPersonModelList);
     }
 
     @Override

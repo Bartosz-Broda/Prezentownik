@@ -17,16 +17,16 @@ import static com.example.prezentownik.utils.HelperClass.logErrorMessage;
 
 public class GiftRepository {
     private static GiftRepository instance;
-    //private ArrayList<Person> dataset = new ArrayList<>();
+
     private GiftRepository.OnFirestoreTaskComplete onFirestoreTaskComplete;
 
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
     public static GiftRepository getInstance(GiftRepository.OnFirestoreTaskComplete onFirestoreTaskComplete){
-        if(instance == null){
+       // if(instance == null){
             instance = new GiftRepository(onFirestoreTaskComplete);
-        }
+        //}
         return instance;
     }
 
@@ -34,7 +34,7 @@ public class GiftRepository {
         this.onFirestoreTaskComplete = onFirestoreTaskComplete;
     }
 
-    public void addNewGift(String giftName, int giftPrice, String list, String selectedPerson, boolean isBought){
+    public void addNewGift(String giftName, float giftPrice, String list, String selectedPerson, boolean isBought){
         Gift newGift = new Gift(giftName, giftPrice, isBought);
         CollectionReference giftsRef = rootRef.collection("users").document(Objects.requireNonNull(firebaseAuth.getUid()))
                 .collection("Giftlists").document(list)
@@ -46,15 +46,25 @@ public class GiftRepository {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                     giftRef.set(newGift).addOnCompleteListener(listCreationTask -> {
-                        Log.d(TAG, "CreateNewGiftList: ELOELO4");
+                        Log.d(TAG, "CreateNewGiftList: ");
                         if (listCreationTask.isSuccessful()) {
-                            Log.d(TAG, "CreateNewGiftList: ELOEL5");
+                            Log.d(TAG, "CreateNewGiftList: ");
                         } else {
-                            logErrorMessage(listCreationTask.getException().getMessage() + "KURWA22");
+                            logErrorMessage(listCreationTask.getException().getMessage());
                         }
                     });
             }
         });
+    }
+
+    public void deleteGift(String giftName, String list, String selectedPerson){
+        CollectionReference giftsRef = rootRef.collection("users").document(Objects.requireNonNull(firebaseAuth.getUid()))
+            .collection("Giftlists").document(list)
+            .collection("Persons").document(selectedPerson)
+            .collection("Gifts");
+        DocumentReference giftRef = giftsRef.document(giftName);
+
+        giftRef.delete();
     }
 
 

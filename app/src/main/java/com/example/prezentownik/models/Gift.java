@@ -3,10 +3,10 @@ package com.example.prezentownik.models;
 public class Gift {
 
     private String giftName;
-    private int giftPrice;
+    private float giftPrice;
     private Boolean isBought;
 
-    public Gift(String giftName, int giftPrice, boolean isBought) {
+    public Gift(String giftName, float giftPrice, boolean isBought) {
         this.giftName = giftName;
         this.giftPrice = giftPrice;
         this.isBought = isBought;
@@ -20,9 +20,9 @@ public class Gift {
 
     public void setIsBought(Boolean isBought) { this.isBought = isBought; }
 
-    public int getGiftPrice() { return giftPrice; }
+    public float getGiftPrice() { return giftPrice; }
 
-    public void setGiftPrice(int giftPrice) { this.giftPrice = giftPrice; }
+    public void setGiftPrice(float giftPrice) { this.giftPrice = giftPrice; }
 
     public Gift() {
     }

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -77,6 +78,8 @@ public class GiftsActivity extends AppCompatActivity implements View.OnClickList
         mMainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         //initializing repository with gifts
         mMainActivityViewModel.initGifts(listName, value);
+        mMainActivityViewModel.initPersons(listName);
+        mMainActivityViewModel.getSelectedPersonData(listName, value);
 
         initRecyclerView();
         giftsProgress.setVisibility(View.VISIBLE);
@@ -87,6 +90,17 @@ public class GiftsActivity extends AppCompatActivity implements View.OnClickList
                 giftsProgress.startAnimation(fadeOutAnim);
                 adapter.setGiftModels(gifts);
                 adapter.notifyDataSetChanged();
+                int giftsBought = 0;
+                int size = gifts.size() -1;
+                float priceOfAllGifts = 0;
+                while (size >=0 ){
+                    if(gifts.get(size).getIsBought()){
+                        giftsBought += 1;
+                        priceOfAllGifts += gifts.get(size).getGiftPrice();
+                    }
+                    size -= 1;
+                }
+                updatePersonGiftQuantity(giftsBought, priceOfAllGifts);
             }
         });
 
@@ -102,12 +116,23 @@ public class GiftsActivity extends AppCompatActivity implements View.OnClickList
         recyclerViewgifts.setAdapter(adapter);
     }
 
-    private void updateGift(boolean isGiftChecked, String name, int price) {
+    private void updateGift(boolean isGiftChecked, String name, float price) {
         Intent intent = GiftsActivity.this.getIntent();
         String personName = intent.getStringExtra("key");
         String listName = intent.getStringExtra("key2");
 
         mMainActivityViewModel.addNewGift(name, price, listName, personName, isGiftChecked);
+    }
+
+    public void updatePersonGiftQuantity(int giftsBought, float priceOfAllGifts) {
+        Intent intent = GiftsActivity.this.getIntent();
+        String personName = intent.getStringExtra("key");
+        String listName = intent.getStringExtra("key2");
+        int personBudget = intent.getIntExtra("key3", 0);
+        //int giftQuantity = mMainActivityViewModel.getSelectedPersonModelData().getValue().get(0).getGiftQuantity();
+        int giftQuantity = adapter.getItemCount();
+        //giftQuantity += 1;
+        mMainActivityViewModel.addNewPerson(personName, personBudget, listName, giftQuantity, giftsBought, priceOfAllGifts);
     }
 
     private void addNewGift(String listName, String personName) {
@@ -133,14 +158,15 @@ public class GiftsActivity extends AppCompatActivity implements View.OnClickList
 
         alert.setPositiveButton("Zatwierdź", (dialog, whichButton) -> {
             //What ever you want to do with the value
-            int price = 0;
+            float price = 0;
             String name = giftNameEditText.getText().toString();
 
             if (!giftPriceEditText.getText().toString().equals("")) {
-                price = Integer.parseInt(giftPriceEditText.getText().toString());
+                price = Float.parseFloat(giftPriceEditText.getText().toString());
             }
 
             mMainActivityViewModel.addNewGift(name, price, listName, personName, false);
+            //TODO: OGARNAC UPDATE ILOSCI I KOSZTU PREZENTOW ---!!!___
 
         });
         alert.setNegativeButton("Anuluj", (dialog, whichButton) -> {
@@ -165,25 +191,45 @@ public class GiftsActivity extends AppCompatActivity implements View.OnClickList
         float budget = intent.getIntExtra("key3", 0);
         CheckedGiftsSumPrice = PriceOfCheckedGifts;
         Log.d(TAG, "getBoughtGiftPrice: " + CheckedGiftsSumPrice);
-        //TODO Zrobic z tego floaty bo pokazuje zero :(
+
+        //setting progressbar depending on value of bought gifts
         float progressPercent = CheckedGiftsSumPrice / budget * 100;
         Log.d(TAG, "getBoughtGiftPriceProgress: " + progressPercent);
 
         progressBarBudget.setProgress((int) progressPercent);
-        //Toast.makeText(this, "PRICE" + PriceOfCheckedGift, Toast.LENGTH_SHORT).show();
     }
 
 
 
     @Override
-    public void getGiftCheck(boolean isGiftChecked, String name, int price) {
+    public void getGiftCheck(boolean isGiftChecked, String name, float price) {
         //If gift is checked or unchecked, i have to update firestore info.
         updateGift(isGiftChecked, name, price);
-        Toast.makeText(this, "isChecked " + isGiftChecked, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "isChecked " + isGiftChecked, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void deleteGift(String giftName) {
+        Intent intent = GiftsActivity.this.getIntent();
+        String value = intent.getStringExtra("key");
+        String listName = intent.getStringExtra("key2");
+
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(GiftsActivity.this);
+        dialog.setMessage("Czy chcesz usunąć ten prezent?")
+                .setPositiveButton("Usuń", (paramDialogInterface, paramInt) -> mMainActivityViewModel.deleteGift(giftName, listName, value))
+                .setNegativeButton("Anuluj", (paramDialogInterface, paramInt) -> {
+                });
+        dialog.show();
+
     }
 
     @Override
     public void onError(Exception e) {
         Toast.makeText(this, "Błąd: " + e, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

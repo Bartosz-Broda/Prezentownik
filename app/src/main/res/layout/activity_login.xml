@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:background="@drawable/presents_big_background"
+    android:backgroundTint="#BFFFFFFF"
+    android:backgroundTintMode="src_over">
 
     <TextView
         android:id="@+id/textView2"
@@ -12,6 +15,7 @@
         android:layout_height="42dp"
         android:text="@string/zaloguj_si"
         android:textAlignment="center"
+        android:textColor="@android:color/black"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,11 +31,14 @@
         android:ems="10"
         android:hint="@string/adres_email"
         android:inputType="textEmailAddress"
+        android:textCursorDrawable="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintVertical_bias="0.092"
+        android:background="@drawable/login_register_edittexts"
+        android:padding="10dp"
         android:autofillHints="" />
 
     <EditText
@@ -42,6 +49,9 @@
         android:ems="10"
         android:hint="@string/has_o"
         android:inputType="textPassword"
+        android:background="@drawable/login_register_edittexts"
+        android:padding="10dp"
+        android:textCursorDrawable="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -55,6 +65,7 @@
         android:layout_height="49dp"
         android:text="@string/zaloguj"
         android:textSize="16sp"
+        android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.792"
@@ -68,6 +79,7 @@
         android:layout_height="26dp"
         android:text="@string/zarejestruj_si"
         android:textSize="16sp"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/signInButton"
         app:layout_constraintHorizontal_bias="0.595"
@@ -81,6 +93,7 @@
         android:layout_height="26dp"
         android:text="Nie pamiętasz hasła?"
         android:textSize="16sp"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.792"

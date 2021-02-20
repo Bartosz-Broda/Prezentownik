@@ -10,9 +10,11 @@
         android:id="@+id/person_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/checkBox"
         android:text="Nazwa prezentu"
         android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/gift_quantity"
@@ -28,17 +30,26 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="130dp" />
+        android:layout_marginEnd="110dp"
+        android:shadowColor="@android:color/black" />
 
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="-110dp"
-        android:layout_marginEnd="60dp"
+        android:layout_marginStart="-95dp"
+        android:layout_marginEnd="45dp"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/checkBox"
         app:srcCompat="@drawable/ic_baseline_shopping_cart_30" />
+    <ImageButton
+        android:id="@+id/delete_gift_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@null"
+        android:layout_alignParentEnd="true"
+        app:srcCompat="@drawable/ic_baseline_clear_34" />
 
 </RelativeLayout>

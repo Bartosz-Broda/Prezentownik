@@ -27,18 +27,18 @@ public class ListRepository {
     private ArrayList<String> dataset = new ArrayList<>();
 
     public static ListRepository getInstance(){
-        if(instance == null){
+        //if(instance == null){
             instance = new ListRepository();
-        }
+        //}
         return instance;
     }
 
 
-    public MutableLiveData<GiftList> CreateNewGiftList(String listName, int listBudget) {
+    public MutableLiveData<GiftList> CreateNewGiftList(String listName, int listBudget, int usedBudget) {
 
         MutableLiveData<GiftList> newListMutableLiveData = new MutableLiveData<>();
 
-        GiftList newList = new GiftList(listName, listBudget);
+        GiftList newList = new GiftList(listName, listBudget, usedBudget);
         DocumentReference listRef = listsRef.document(listName);
 
         listRef.get().addOnCompleteListener(listTask -> {
@@ -52,7 +52,7 @@ public class ListRepository {
                             newList.isCreated = true;
                             newListMutableLiveData.setValue(newList);
                         } else {
-                            logErrorMessage(listCreationTask.getException().getMessage() + "KURWA22");
+                            logErrorMessage(listCreationTask.getException().getMessage());
                             newList.error = listCreationTask.getException().getMessage();
                             newListMutableLiveData.setValue(newList);
                         }
@@ -61,18 +61,18 @@ public class ListRepository {
                     newListMutableLiveData.setValue(newList);
                 }
             } else {
-                logErrorMessage(listTask.getException().getMessage() + "KURAW11");
+                logErrorMessage(listTask.getException().getMessage());
                 newList.error = listTask.getException().getMessage();
                 newListMutableLiveData.setValue(newList);
             }
 
         });
-        Log.d(TAG, "CreateNewGiftList: siemano" + newListMutableLiveData);
+        Log.d(TAG, "CreateNewGiftList: " + newListMutableLiveData.getValue());
         return newListMutableLiveData;
 
     }
 
-    public MutableLiveData<List<String>> retrieveMyLists() {
+    /*public MutableLiveData<List<String>> retrieveMyLists() {
         Log.d(TAG, "retrieveMyLists: Wywołane");
         setLists();
         Log.d(TAG, "retrieveMyLists: HEEk" + dataset);
@@ -95,6 +95,5 @@ public class ListRepository {
                 logErrorMessage(task.getException().getMessage() + "Nie tak");
             }
         });
-
-    }
+    }*/
 }

@@ -10,6 +10,7 @@ public class GiftList {
 
     private String listName;
     private int listBudget;
+    private int usedBudget;
 
     public String getListName() {
         return listName;
@@ -27,9 +28,19 @@ public class GiftList {
         this.listBudget = listBudget;
     }
 
-    public GiftList(String listName, int listBudget) {
+    public int getUsedBudget() {
+        return usedBudget;
+    }
+
+    public void setUsedBudget(int usedBudget) {
+        this.usedBudget = usedBudget;
+    }
+
+
+    public GiftList(String listName, int listBudget, int usedBudget) {
         this.listName = listName;
         this.listBudget = listBudget;
+        this.usedBudget = usedBudget;
     }
 
     //empty constructor for firebase

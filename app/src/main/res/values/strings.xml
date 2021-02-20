@@ -3,7 +3,7 @@
     <string name="adres_email">Adres email</string>
     <string name="has_o_minimum_8_znak_w">minimum 8 znaków</string>
     <string name="zatwierd">zatwierdź</string>
-    <string name="ju_zarejestrowany_kliknij_tutaj_aby_si_zalogowa">Już zarejestrowany? Kliknij tutaj aby się zalogować!</string>
+    <string name="ju_zarejestrowany_kliknij_tutaj_aby_si_zalogowa">Już zarejestrowany/a? Kliknij tutaj aby się zalogować!</string>
     <string name="rejestracja">Rejestracja</string>
     <string name="zaloguj_si">Zaloguj się</string>
     <string name="has_o">Hasło</string>
@@ -15,4 +15,5 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="listy_prezent_w">Listy prezentów</string>
     <string name="konto">Konto</string>
+    <string name="hello">Witaj!</string>
 </resources>

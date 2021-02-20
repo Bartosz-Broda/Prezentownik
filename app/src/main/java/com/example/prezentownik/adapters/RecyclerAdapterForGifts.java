@@ -32,7 +32,7 @@ public class RecyclerAdapterForGifts extends RecyclerView.Adapter<RecyclerAdapte
 
     private List<Gift> mGifts;
     private Context mContext;
-    int sumGiftPrice;
+    int sumOfCheckedGifts;
     int sumBoughtGiftPrice;
     boolean wasClicked = false;
 
@@ -53,6 +53,7 @@ public class RecyclerAdapterForGifts extends RecyclerView.Adapter<RecyclerAdapte
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item_gift, parent, false);
         ViewHolder holder = new ViewHolder(view);
         wasClicked = false;
+        sumOfCheckedGifts = 0;
         return holder;
     }
 
@@ -65,13 +66,18 @@ public class RecyclerAdapterForGifts extends RecyclerView.Adapter<RecyclerAdapte
         holder.giftPrice.setText(String.valueOf(mGifts.get(position).getGiftPrice()));
         //If gift is bought, set the checkbox on checked
         holder.isBoughtCheckBox.setChecked(mGifts.get(position).getIsBought());
+        //Setting onclicklistener for button
+        holder.deleteGiftBtn.setOnClickListener(v -> onCheckBoxClicked.deleteGift(mGifts.get(position).getGiftName()));
+
+        holder.goToShopBtn.setOnClickListener(v -> Toast.makeText(mContext, "Funkcja jeszcze nie jest dostępna", Toast.LENGTH_SHORT).show());
 
         //If that is initial loaading, get price of checked items and set colors
-        int price = mGifts.get(position).getGiftPrice();
+        float price = mGifts.get(position).getGiftPrice();
         if (mGifts.get(position).getIsBought() && !wasClicked) {
             holder.giftPrice.setTextColor((0xFF32CD32));
             sumBoughtGiftPrice += price;
             onCheckBoxClicked.getBoughtGiftPrice(sumBoughtGiftPrice);
+            sumOfCheckedGifts += 1;
         } else if (!wasClicked){
             holder.giftPrice.setTextColor(Color.GRAY);
             onCheckBoxClicked.getBoughtGiftPrice(sumBoughtGiftPrice);
@@ -88,12 +94,14 @@ public class RecyclerAdapterForGifts extends RecyclerView.Adapter<RecyclerAdapte
                 onCheckBoxClicked.getBoughtGiftPrice(sumBoughtGiftPrice);
                 mGifts.get(position).setIsBought(true);
                 wasClicked = true;
+                sumOfCheckedGifts += 1;
             } else {
                 sumBoughtGiftPrice -= price;
                 holder.giftPrice.setTextColor(Color.GRAY);
                 onCheckBoxClicked.getBoughtGiftPrice(sumBoughtGiftPrice);
                 mGifts.get(position).setIsBought(false);
                 wasClicked = true;
+                sumOfCheckedGifts -= 1;
             }
 
             //Passing info to interface, so i can call a method in GiftsActivity to update firestore data.
@@ -110,8 +118,8 @@ public class RecyclerAdapterForGifts extends RecyclerView.Adapter<RecyclerAdapte
 
     public interface OnCheckboxClicked {
         void getBoughtGiftPrice(int PriceOfCheckedGifts);
-        void getGiftCheck(boolean isGiftChecked, String name, int price);
-
+        void getGiftCheck(boolean isGiftChecked, String name, float price);
+        void deleteGift (String giftName);
         void onError(Exception e);
     }
 
@@ -130,6 +138,7 @@ public class RecyclerAdapterForGifts extends RecyclerView.Adapter<RecyclerAdapte
         private TextView giftPrice;
         private CheckBox isBoughtCheckBox;
         private ImageButton goToShopBtn;
+        private ImageButton deleteGiftBtn;
         RelativeLayout parentLayout;
 
         public ViewHolder(@NonNull View itemView) {
@@ -138,6 +147,7 @@ public class RecyclerAdapterForGifts extends RecyclerView.Adapter<RecyclerAdapte
             giftPrice = itemView.findViewById(R.id.gift_quantity);
             isBoughtCheckBox = itemView.findViewById(R.id.checkBox);
             goToShopBtn = itemView.findViewById(R.id.imageButton);
+            deleteGiftBtn = itemView.findViewById(R.id.delete_gift_button);
 
             parentLayout = itemView.findViewById(R.id.parent_layout);
         }

@@ -10,6 +10,12 @@ import com.example.prezentownik.repositories.TestRepository;
 import java.util.List;
 
 public class TestowyViewModel extends ViewModel implements TestRepository.OnFirestoreTaskComplete {
+    private TestRepository testRepo;
+
+    public void init(){
+        testRepo = TestRepository.getInstance(this);
+        testRepo.getListData();
+    }
 
     private MutableLiveData<List<GiftList>> testListModelData = new MutableLiveData<>();
 
@@ -17,11 +23,7 @@ public class TestowyViewModel extends ViewModel implements TestRepository.OnFire
         return testListModelData;
     }
 
-    private TestRepository testRepository= new TestRepository(this);
 
-    public TestowyViewModel(){
-        testRepository.getListData();
-    }
 
     @Override
     public void getListDataAdded(List<GiftList> giftListModelList) {

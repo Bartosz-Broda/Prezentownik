@@ -54,8 +54,6 @@ public class AuthRepository {
     public MutableLiveData<User> firebaseCreateNewUserWithEmailAndPassword(String email, String password){
         MutableLiveData<User> newUserMutableLiveData = new MutableLiveData<>();
 
-    //TODO SKONCZYC TO. ZWRACA TO MA DANE USERA (CHYBA)
-
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -77,7 +75,7 @@ public class AuthRepository {
                                             authenticatedUser.isCreated = true;
                                             newUserMutableLiveData.setValue(authenticatedUser);
                                         } else {
-                                            logErrorMessage(userCreationTask.getException().getMessage() + "KURWA");
+                                            logErrorMessage(userCreationTask.getException().getMessage());
                                             authenticatedUser.error = task.getException().getMessage();
                                             newUserMutableLiveData.setValue(authenticatedUser);
                                         }
@@ -86,7 +84,7 @@ public class AuthRepository {
                                     newUserMutableLiveData.setValue(authenticatedUser);
                                 }
                             } else {
-                                logErrorMessage(uidTask.getException().getMessage() + "KURAW1");
+                                logErrorMessage(uidTask.getException().getMessage());
                                 authenticatedUser.error = task.getException().getMessage();
                                 newUserMutableLiveData.setValue(authenticatedUser);
                             }
@@ -94,7 +92,7 @@ public class AuthRepository {
 
                     } else {
                         User authenticatedUser = new User(email, password);
-                        logErrorMessage(task.getException().getMessage()+ "KURWA3");
+                        logErrorMessage(task.getException().getMessage());
                         authenticatedUser.error = task.getException().getMessage();
                         newUserMutableLiveData.setValue(authenticatedUser);
                         }

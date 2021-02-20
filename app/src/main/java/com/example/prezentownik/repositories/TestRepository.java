@@ -13,11 +13,19 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.List;
 
 public class TestRepository {
+    private static TestRepository instance;
     FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
     private TestRepository.OnFirestoreTaskComplete onFirestoreTaskComplete;
 
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private CollectionReference listsRef = rootRef.collection("users").document(firebaseAuth.getUid()).collection("Giftlists");
+
+    public static TestRepository getInstance(TestRepository.OnFirestoreTaskComplete onFirestoreTaskComplete){
+        // if(instance == null){
+        instance = new TestRepository(onFirestoreTaskComplete);
+        //}
+        return instance;
+    }
 
     public TestRepository(OnFirestoreTaskComplete onFirestoreTaskComplete){
         this.onFirestoreTaskComplete = onFirestoreTaskComplete;
