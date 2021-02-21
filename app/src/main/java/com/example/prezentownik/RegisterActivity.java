@@ -60,6 +60,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        startActivity(new Intent(this, LoginActivity.class));
+    }
+
     private void initUI(){
         progressDialog = new ProgressDialog (this);
         registerButton = findViewById(R.id.buttonRegister);

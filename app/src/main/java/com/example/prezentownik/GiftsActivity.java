@@ -188,9 +188,10 @@ public class GiftsActivity extends AppCompatActivity implements View.OnClickList
     public void getBoughtGiftPrice(int PriceOfCheckedGifts) {
         progressBarBudget.setProgress(0);
         Intent intent = GiftsActivity.this.getIntent();
-        float budget = intent.getIntExtra("key3", 0);
+        float budget = intent.getFloatExtra("key3", 0);
         CheckedGiftsSumPrice = PriceOfCheckedGifts;
         Log.d(TAG, "getBoughtGiftPrice: " + CheckedGiftsSumPrice);
+        Log.d(TAG, "getBoughtGiftPriceBudget: " + budget);
 
         //setting progressbar depending on value of bought gifts
         float progressPercent = CheckedGiftsSumPrice / budget * 100;

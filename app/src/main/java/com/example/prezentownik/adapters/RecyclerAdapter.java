@@ -86,7 +86,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 myIntent.putExtra("key", value);
                 myIntent.putExtra("key2", listName);
                 myIntent.putExtra("key3", mPersons.get(position).getBudget());
-                Log.d(TAG, "onClick: KURWA" + mPersons.get(position).getBudget());//Optional parameters
+                Log.d(TAG, "onClick: " + mPersons.get(position).getBudget());//Optional parameters
 
                 mContext.startActivity(myIntent);
             }

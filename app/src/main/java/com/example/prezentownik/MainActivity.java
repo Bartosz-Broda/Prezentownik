@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FloatingActionButton fabAddList;
     FloatingActionButton fabAddPerson;
     SubMenu subMenu1 = null;
-    SubMenu subMenu2 = null;
+    //SubMenu subMenu2 = null;
 
     FirebaseAuth firebaseAuth;
 
@@ -144,29 +144,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void refreshSideMenu() {
-        Log.d(TAG, "refreshSideMenu: KURWA");
+        Log.d(TAG, "refreshSideMenu: ");
         testowyViewModel.init();
         testowyViewModel.getTestListModelData().observe(this, giftLists -> {
             int x = 0;
-            if (!giftLists.isEmpty() && subMenu1==null) {
-                if(subMenu2 != null){subMenu2.clear(); subMenu2.clearHeader(); subMenu2.close();}
-                subMenu1 = navigationView.getMenu().addSubMenu(Menu.NONE, 1, 1, "Twoje listy prezentów");
+            if (!giftLists.isEmpty() && subMenu1 != null){
+                subMenu1.clear();
                 for (GiftList element : giftLists) {
                     subMenu1.add(3, x, x, element.getListName());
                     x += 1;
-                }
-            } else if (!giftLists.isEmpty()){
-                subMenu1.removeGroup(3);
-                for (GiftList element : giftLists) {
-                    subMenu1.add(3, x, x, element.getListName());
-                    x += 1;
-                }
-            } else if (subMenu2 == null) {
-                subMenu2 = navigationView.getMenu().addSubMenu(Menu.NONE, 1, 1, "Twoje listy prezentów");
-                subMenu2.add(3, 1, 1, "Brak list z prezentami");
-            } else {
-                subMenu2.removeGroup(3);
-                subMenu2.add(3, 1, 1, "Brak list z prezentami");
+                }}
+            else if(subMenu1 == null) {
+                subMenu1=navigationView.getMenu().addSubMenu(Menu.NONE, 1, 1, "Twoje listy prezentów");
+                subMenu1.add(3, 999, 1, "Brak list z prezentami");
             }
         });
     }
@@ -219,6 +209,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             firebaseAuth.signOut();
             finish();
             startActivity(new Intent(this, LoginActivity.class));
+        }
+        if (item.getTitle().equals("Brak list z prezentami")){
+            Toast.makeText(this, "Utwórz swoją pierwszą listę aby korzystać z aplikacji", Toast.LENGTH_SHORT).show();
         }
         if (item.getItemId() >= 0 && item.getItemId() < 100) {
             Log.d(TAG, "onNavigationItemSelected: FLAGA " + item.getTitle() + " " + item.getItemId());
@@ -386,7 +379,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String list = String.valueOf(listNameTextView.getText());
 
         final AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-        dialog.setMessage("Czy chcesz usunąć tą osobę ze swojej listy?")
+        dialog.setMessage("Czy chcesz usunąć tę osobę ze swojej listy?")
                 .setPositiveButton("Usuń", (paramDialogInterface, paramInt) -> mMainActivityViewModel.deletePerson(personName, list))
                 .setNegativeButton("Anuluj", (paramDialogInterface, paramInt) -> { });
         dialog.show();
