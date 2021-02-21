@@ -198,6 +198,14 @@ public class GiftsActivity extends AppCompatActivity implements View.OnClickList
         Log.d(TAG, "getBoughtGiftPriceProgress: " + progressPercent);
 
         progressBarBudget.setProgress((int) progressPercent);
+
+        if (progressPercent > 100){
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(GiftsActivity.this);
+            dialog.setTitle("Alert")
+                    .setMessage("Kupując ten prezent przekraczasz założony budżet!")
+                    .setNegativeButton("Ok", (paramDialogInterface, paramInt) -> { });
+            dialog.show();
+        }
     }
 
 
