@@ -73,9 +73,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FloatingActionButton fabAddPerson;
     SubMenu subMenu1 = null;
     //SubMenu subMenu2 = null;
+    Toast toast;
 
     FirebaseAuth firebaseAuth;
 
+    @SuppressLint("ShowToast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mMainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         mMainActivityViewModel.init();
+
+        toast = Toast.makeText(this, "Wcisnij Wstecz jeszcze raz aby zamknąć aplikację", Toast.LENGTH_SHORT);
 
         initUI();
     }
@@ -181,15 +185,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else if (recyclerView.getVisibility() == View.GONE){
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setMessage("Czy chcesz wyjść z apliakcji?");
-            alert.setPositiveButton("Tak", (dialog, whichButton) -> {
-                super.onBackPressed();
-            });
-            alert.setNegativeButton("Nie", (dialog, whichButton) -> {});
-            alert.show();
-        } else {
+        } else if (recyclerView.getVisibility() == View.GONE && !toast.getView().isShown()){
+            toast.show();
+        }
+        else if (recyclerView.getVisibility() == View.GONE && toast.getView().isShown()){
+            super.onBackPressed();
+        }
+        else {
             recyclerView.setVisibility(View.GONE);
             fabAddPerson.setVisibility(View.GONE);
             listNameTextView.setVisibility(View.GONE);
@@ -221,54 +223,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String selecteedListName = selectedList.get(item.getItemId()).getListName();
             float selectedListBudget = selectedList.get(item.getItemId()).getListBudget();
 
-            //Changing UI depending on chosen list
-            addNewListBigButton.setVisibility(View.GONE);
-            checkOutNewIdeasBigButton.setVisibility(View.GONE);
-            listProgress.setVisibility(View.VISIBLE);
-            mMainActivityViewModel.initPersons(selecteedListName);
-            listNameTextView.setText(selecteedListName);
-            initRecyclerView();
-            mMainActivityViewModel.getPersonModelData().observe(this, new Observer<List<Person>>() {
-                        @SuppressLint("SetTextI18n")
-                        @Override
-                        public void onChanged(List<Person> people) {
-                            listProgress.startAnimation(fadeOutAnim);
-                            adapter.setPersonModels(people);
-                            adapter.setListName(selecteedListName);
-                            adapter.notifyDataSetChanged();
-
-                            float totalPrice = 0;
-                            int size = people.size() -1;
-                            while (size >=0 ){
-                                totalPrice += people.get(size).getCheckedGiftsPrice();
-                                size -= 1;
-                            }
-                            if (selectedListBudget > 0) {
-                                float progressPercent = totalPrice / selectedListBudget * 100;
-                                progressBar.setProgress((int) progressPercent);
-                                progressBar.setVisibility(View.VISIBLE);
-                                listNameTextView.setText(selecteedListName);
-                                listNameTextView.setVisibility(View.VISIBLE);
-                                toolbarTitleTextView.setVisibility(View.GONE);
-                                progressTitleTextView.setVisibility(View.VISIBLE);
-                                progressTitleTextView.setText("Wykorzystany budżet: " + totalPrice + "/ " + selectedListBudget);
-                                drawerLayout.closeDrawer(GravityCompat.START);
-                            } else {
-                                toolbarTitleTextView.setText(selecteedListName);
-                                toolbarTitleTextView.setVisibility(View.VISIBLE);
-                                listNameTextView.setVisibility(View.GONE);
-                                progressBar.setVisibility(View.GONE);
-                                progressTitleTextView.setVisibility(View.GONE);
-                                progressBar.setVisibility(View.GONE);
-                                drawerLayout.closeDrawer(GravityCompat.START);
-                            }
-                        }
-                    });
-
-
-            fabAddPerson.setVisibility(View.VISIBLE);
+           goToList(selecteedListName, selectedListBudget);
         }
         return true;
+    }
+
+    private void goToList(String selecteedListName, float selectedListBudget){
+        //Changing UI depending on chosen list
+        addNewListBigButton.setVisibility(View.GONE);
+        checkOutNewIdeasBigButton.setVisibility(View.GONE);
+        listProgress.setVisibility(View.VISIBLE);
+        mMainActivityViewModel.initPersons(selecteedListName);
+        listNameTextView.setText(selecteedListName);
+        initRecyclerView();
+        mMainActivityViewModel.getPersonModelData().observe(this, people -> {
+            listProgress.startAnimation(fadeOutAnim);
+            adapter.setPersonModels(people);
+            adapter.setListName(selecteedListName);
+            adapter.notifyDataSetChanged();
+
+            float totalPrice = 0;
+            int size = people.size() -1;
+            while (size >=0 ){
+                totalPrice += people.get(size).getCheckedGiftsPrice();
+                size -= 1;
+            }
+            if (selectedListBudget > 0) {
+                float progressPercent = totalPrice / selectedListBudget * 100;
+                progressBar.setProgress((int) progressPercent);
+                progressBar.setVisibility(View.VISIBLE);
+                listNameTextView.setText(selecteedListName);
+                listNameTextView.setVisibility(View.VISIBLE);
+                toolbarTitleTextView.setVisibility(View.GONE);
+                progressTitleTextView.setVisibility(View.VISIBLE);
+                progressTitleTextView.setText(String.format("Wykorzystany budżet: %s/ %s", String.format(java.util.Locale.US, "%.2f", totalPrice), selectedListBudget));
+                drawerLayout.closeDrawer(GravityCompat.START);
+            } else {
+                toolbarTitleTextView.setText(selecteedListName);
+                toolbarTitleTextView.setVisibility(View.VISIBLE);
+                listNameTextView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
+                progressTitleTextView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
+
+
+        fabAddPerson.setVisibility(View.VISIBLE);
     }
 
     private void showAlert(int code){
@@ -306,6 +308,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         alert.setPositiveButton("Zatwierdź", (dialog, whichButton) -> {
             //What ever you want to do with the value
             float budget = 0;
+
             String name = listNameEditText.getText().toString();
 
             if (!listBudgetEditText.getText().toString().equals("")) {
@@ -318,14 +321,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             //If user wants to add new list:
             if (code == 1) {
-                mMainActivityViewModel.SetNewList(name, budget, 0);
+                if(name.equals("")){
+                    Toast.makeText(this, "Wprowadź nazwę dla listy", Toast.LENGTH_SHORT).show();
+                } else {
+                    mMainActivityViewModel.SetNewList(name, budget, 0);
 
-                Log.d(TAG, "addNewGiftList: " + name + budget);
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        refreshSideMenu();
-                    }
-                }, 2 * 100);
+                    Log.d(TAG, "addNewGiftList: " + name + budget);
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            refreshSideMenu();
+                        }
+                    }, 2 * 120);
+                    goToList(name, budget);
+                }
 
             //If user wants to add new person
             } else if (code == 2){
